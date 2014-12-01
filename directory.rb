@@ -1,14 +1,17 @@
 
 # Aarry of students
-students = ["Dr. Hannibal Lecter",
-            "Darth Vader",
-            "Nurse Ratched",
-            "Micheal Corleone",
-            "Alex De Large",
-            "The Alien",
-            "Terminator",
-            "Freedy Kruger",
-            "The Joker"]
+students =  [
+            {:name => "Dr. Hannibal Lecter", :cohort => :november},
+            {:name => "Darth Vader",  :cohort => :november},
+            {:name => "Nurse Ratched", :cohort => :november},
+            {:name => "Micheal Corleone", :cohort => :november},
+            {:name => "Alex De Large", :cohort => :november},
+            {:name => "The Alien", :cohort => :november},
+            {:name => "Terminator", :cohort => :november},
+            {:name => "Freedy Kruger", :cohort => :november},
+            {:name => "The Joker", :cohort => :november}
+            ]
+
 
 # Print header and list of students
 def print_header
@@ -21,7 +24,7 @@ end
 # iterate through student array and print to stdout(Console)
 def print(names)
     names.each do |name|
-    puts name
+    puts "#{name[:name]} (#{name[:cohort]} cohort)"
   end
 end
 

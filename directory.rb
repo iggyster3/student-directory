@@ -1,18 +1,5 @@
 
-# Aarry of students
-=begin
-students =  [
-            {:name => "Dr. Hannibal Lecter", :cohort => :november},
-            {:name => "Darth Vader",  :cohort => :november},
-            {:name => "Nurse Ratched", :cohort => :november},
-            {:name => "Micheal Corleone", :cohort => :november},
-            {:name => "Alex De Large", :cohort => :november},
-            {:name => "The Alien", :cohort => :november},
-            {:name => "Terminator", :cohort => :november},
-            {:name => "Freedy Kruger", :cohort => :november},
-            {:name => "The Joker", :cohort => :november}
-            ]
-=end
+# Aarry of student
 
 def input_students
 
@@ -53,9 +40,9 @@ end
 
 # iterate through student array and print to stdout(Console)
 def print(names)
-    names.each do |name|
-    puts "#{name[:name]} (#{name[:cohort]} cohort)"
-  end
+    names.each.with_index(1) do |name, i|
+    puts "#{i}: #{name[:name]} (#{name[:cohort]} cohort)"
+    end
 end
 
 

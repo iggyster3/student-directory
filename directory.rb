@@ -27,10 +27,10 @@ def input_students
     puts "To finish just enter return twice"
 
     # get the first name
-    name = gets.chomp.capitalize
+    name = STDIN.gets.capitalize
     if /A/ =~ name
     # get chort
-    cohort = gets.chomp
+    cohort = STDIN.gets
     end
 
     # while the name is not empty, repeat this code
@@ -50,9 +50,9 @@ def input_students
     end
 
       # get another name and chort from the user
-      name = gets.chomp.capitalize
+      name = STDIN.gets.capitalize
       if /A/ =~ name
-      cohort = gets.chomp
+      cohort = STDIN.gets
       end
     end
 
@@ -91,6 +91,10 @@ def process(selection)
   end
 end
 
+def add_students(name, cohort)
+  @students << {:name => name, :cohort => cohort.to_s}
+end
+
 def save_students
   # open the file for writing
   file = File.open("students.csv", "w")
@@ -104,15 +108,27 @@ def save_students
   file.close()
 end
 
-def load_students
-    file = File.open("students.csv", "r")
+def load_students(filename = "students.csv")
+    file = File.open(filename, "r")
     file.readlines.each do |line|
       name, cohort = line.chomp.split(',')
-      @students << {:name => name, :cohort => cohort.to_s}
+      add_students(name, cohort)
+      #@students << {:name => name, :cohort => cohort.to_s}
     end
     file.close()
 end
 
+def try_load_students
+  filename = ARGV.first
+  return if filename.nil?
+  if File.exists?(filename)
+    load_students(filename)
+     puts "Loaded #{@students.length} from #{filename}"
+  else
+    puts "Sorry, #{filename} does'nt exist."
+    exit
+  end
+end
 def interactive_menu
   loop do
 

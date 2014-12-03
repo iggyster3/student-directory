@@ -1,11 +1,30 @@
+
+@students = []
+
+# Print header and list of students
+def print_header
+  puts "The students of my cohort at Makers Academy"
+  puts "-------------------------------------------"
+end
+
+# iterate through array of student and cohort hash and print to stdout(Console)
+def print_student_list
+    @students.each.with_index(1) do |student, i|
+      puts "#{i}: #{student[:name]} (#{student[:cohort]} cohort)"
+    end
+end
+
+# Finally, we print the total students on the list
+def print_footer
+  puts "Overall we have #{@students.length} great students"
+  puts
+end
+
 # Array of student
 def input_students
 
     puts "Please enter the names of the students"
     puts "To finish just enter return twice"
-
-    # create an empty array
-    students = []
 
     # get the first name
     name = gets.chomp.capitalize
@@ -21,10 +40,10 @@ def input_students
       if /A/ =~ name
 
       # add the student hash of name and cohort to the empty array
-      students << {:name => name, :cohort => cohort}
+      @students << {:name => name, :cohort => cohort}
 
       # print number of students in current cohort
-      puts "Now we have #{students.length} students"
+      puts "Now we have #{@students.length} students"
 
     else
       puts "Your name does not start with a capital A, try again"
@@ -38,66 +57,55 @@ def input_students
     end
 
     # return the array of students
-    students
+    # @students
 end
 
-# Print header and list of students
-def print_header
-    puts "The students of my cohort at Makers Academy"
-    puts "-------------------------------------------"
+def print_menu
+   puts "1. Input the students"
+   puts "2. Show the students"
+   puts "3. Save the list to students.csv"
+   puts "9. Exit"
 end
 
-
-
-# iterate through array of student and cohort hash and print to stdout(Console)
-def print(names)
-    names.each.with_index(1) do |name, i|
-    puts "#{i}: #{name[:name]} (#{name[:cohort]} cohort)"
-    end
+def show_students
+  print_header
+  print_student_list
+  print_footer
 end
 
-
-# Finally, we print the total students on the list
-def print_footer(names)
-    puts "Overall we have #{names.length} great students"
-    puts
-end
-
-#students = input_students
-#print_header
-#print(students)
-#print_footer(students)
-
-def interactive_menu
-
-  students = []
-
-  loop do
-    # 1. Print the menu and ask the user what to do
-    puts "1. Input the students"
-    puts "2. Show the students"
-    puts "9. Exit"
-
-    # 2. Read the input and send into a variable
-    user_selection = gets.chomp
-
-    # 3. Do what the user has asked
-    case user_selection
-
+def process(selection)
+  case selection
     when "1"
-      # input the students
-      students = input_students
+      input_students
     when "2"
-      # show the students
-      print_header
-      print(students)
-      print_footer(students)
+      show_students
+    when "3"
+      save_students
     when "9"
-      # exit the program
       exit
     else
-      puts "I don't know what you meant, try again"
-    end
+      puts "I don't know what you mean, try again"
+  end
+end
+
+def save_students
+  # open the file for writing
+  file = File.open("students.csv", "w")
+  # iterate over the array of students
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  # close the file
+  file.close()
+end
+
+def interactive_menu
+  loop do
+
+    print_menu
+    process(gets.chomp)
   end
 end
 

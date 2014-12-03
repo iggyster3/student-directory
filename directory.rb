@@ -1,5 +1,5 @@
 
-# Aarry of student
+# Array of student
 
 def input_students
 
@@ -10,20 +10,33 @@ def input_students
     students = []
 
     # get the first name
-    name = gets.chomp
-
+    name = gets.chomp.capitalize
+    if /A/ =~ name
     # get chort
     cohort = gets.chomp
+    end
 
     # while the name is not empty, repeat this code
     while !name.empty? do
-      # add the student hash to the array
+
+      # pattern match whether name starts with a or A
+      if /A/ =~ name
+
+      # add the student hash of name and cohort to the empty array
       students << {:name => name, :cohort => cohort}
+
+      # print number of students in current cohort
       puts "Now we have #{students.length} students"
 
-      # get another name from the user
-      name = gets.chomp
+    else
+      puts "Your name does not start with a capital A, try again"
+    end
+
+      # get another name and chort from the user
+      name = gets.chomp.capitalize
+      if /A/ =~ name
       cohort = gets.chomp
+      end
     end
 
     # return the array of students
@@ -38,7 +51,7 @@ end
 
 
 
-# iterate through student array and print to stdout(Console)
+# iterate through array of student and cohort hash and print to stdout(Console)
 def print(names)
     names.each.with_index(1) do |name, i|
     puts "#{i}: #{name[:name]} (#{name[:cohort]} cohort)"
@@ -49,6 +62,7 @@ end
 # Finally, we print the total students on the list
 def print_footer(names)
     puts "Overall we have #{names.length} great students"
+    puts
 end
 
 students = input_students

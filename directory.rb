@@ -26,38 +26,44 @@ def input_students
     puts "Please enter the names of the students"
     puts "To finish just enter return twice"
 
+
     # get the first name
-    name = STDIN.gets.capitalize
-    if /A/ =~ name
-    # get chort
-    cohort = STDIN.gets
-    end
+    name = STDIN.gets.capitalize.chomp
 
-    # while the name is not empty, repeat this code
-    while !name.empty? do
+    while  name.length < '12'.to_i do
 
-      # pattern match whether name starts with a or A
       if /A/ =~ name
-
-      # add the student hash of name and cohort to the empty array
-      @students << {:name => name, :cohort => cohort}
-
-      # print number of students in current cohort
-      puts "Now we have #{@students.length} students"
-
-    else
-      puts "Your name does not start with a capital A, try again"
-    end
-
-      # get another name and chort from the user
-      name = STDIN.gets.capitalize
-      if /A/ =~ name
-      cohort = STDIN.gets
+        # get chort
+        cohort = STDIN.gets.chomp
       end
-    end
 
-    # return the array of students
-    # @students
+      # while the name is not empty, repeat this code
+      while !name.empty? do
+
+        if name == "Quit"
+          break
+        end
+
+          # pattern match whether name starts with a or A
+          if /A/ =~ name
+
+            # add the student hash of name and cohort to the empty array
+            @students << {:name => name, :cohort => cohort}
+
+            # print number of students in current cohort
+            puts "Now we have #{@students.length} students"
+          else
+            puts "Your name does not start with a capital A, try again"
+          end
+
+          # get another name and chort from the user
+          name = STDIN.gets.capitalize.chomp
+
+            if /A/ =~ name && name.length < '12'.to_i
+            cohort = STDIN.gets.capitalize.chomp
+            end
+        end
+      end
 end
 
 def print_menu

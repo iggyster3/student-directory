@@ -10,7 +10,8 @@ end
 # iterate through array of student and cohort hash and print to stdout(Console)
 def print_student_list
     @students.each.with_index(1) do |student, i|
-      puts "#{i}: #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{i}: #{student[:name]} (#{student[:cohort]} cohort), my hobby is #{student[:hobby]}
+      and i was born #{student[:country_birth]}"
     end
 end
 
@@ -35,6 +36,13 @@ def input_students
       if /A/ =~ name
         # get chort
         cohort = STDIN.gets.chomp
+
+        # get hobby
+        hobby = STDIN.gets.capitalize.chomp
+
+        # get country of birth
+        country_birth = STDIN.gets.capitalize.chomp
+
       end
 
       # while the name is not empty, repeat this code
@@ -48,21 +56,31 @@ def input_students
           if /A/ =~ name
 
             # add the student hash of name and cohort to the empty array
-            @students << {:name => name, :cohort => cohort}
+            @students << {:name => name, :cohort => cohort, :hobby => hobby, :country => country_birth}
 
-            # print number of students in current cohort
-            puts "Now we have #{@students.length} students"
-          else
+            if @students.length <= 1
+              puts "Now we have #{@students.length} student."
+              # print number of students in current cohort
+            elsif @students.length > 1
+              puts "Now we have #{@students.length} students"
+            else
             puts "Your name does not start with a capital A, try again"
           end
+        end
 
           # get another name and chort from the user
           name = STDIN.gets.capitalize.chomp
 
             if /A/ =~ name && name.length < '12'.to_i
             cohort = STDIN.gets.capitalize.chomp
+            # get hobby
+            hobby = STDIN.gets.capitalize.chomp
+
+            # get country of birth
+            country_birth = STDIN.gets.capitalize.chomp
             end
         end
+        break
       end
 end
 
@@ -97,8 +115,8 @@ def process(selection)
   end
 end
 
-def add_students(name, cohort)
-  @students << {:name => name, :cohort => cohort.to_s}
+def add_students(name, cohort, hobby, country_birth)
+  @students << {:name => name, :cohort => cohort.to_s, :hobby => hobby, :country_birth => country_birth}
 end
 
 def save_students
@@ -106,7 +124,7 @@ def save_students
   file = File.open("students.csv", "w")
   # iterate over the array of students
   @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
+    student_data = [student[:name], student[:cohort], student[:hobby], student[:country_birth]]
     csv_line = student_data.join(",")
     file.puts csv_line
   end
@@ -117,8 +135,8 @@ end
 def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      add_students(name, cohort)
+      name, cohort, hobby = line.chomp.split(',')
+      add_students(name, cohort, hobby, country_birth)
       #@students << {:name => name, :cohort => cohort.to_s}
     end
     file.close()

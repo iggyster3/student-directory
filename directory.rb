@@ -10,8 +10,7 @@ end
 # iterate through array of student and cohort hash and print to stdout(Console)
 def print_student_list
     @students.each.with_index(1) do |student, i|
-      puts "#{i}: #{student[:name]} (#{student[:cohort]} cohort), my hobby is #{student[:hobby]}
-      and i was born #{student[:country_birth]}"
+      puts "#{i}: #{student[:name]} (#{student[:cohort]} cohort), my hobby is #{student[:hobby]} and i was born in #{student[:country_birth]}"
     end
 end
 
@@ -29,19 +28,19 @@ def input_students
 
 
     # get the first name
-    name = STDIN.gets.capitalize.chomp
+    name = STDIN.gets.capitalize.chop
 
     while  name.length < '12'.to_i do
 
       if /A/ =~ name
         # get chort
-        cohort = STDIN.gets.chomp
+        cohort = STDIN.gets.chop
 
         # get hobby
-        hobby = STDIN.gets.capitalize.chomp
+        hobby = STDIN.gets.capitalize.chop
 
         # get country of birth
-        country_birth = STDIN.gets.capitalize.chomp
+        country_birth = STDIN.gets.capitalize.chop
 
       end
 
@@ -56,7 +55,7 @@ def input_students
           if /A/ =~ name
 
             # add the student hash of name and cohort to the empty array
-            @students << {:name => name, :cohort => cohort, :hobby => hobby, :country => country_birth}
+            @students << {:name => name, :cohort => cohort, :hobby => hobby, :country_birth => country_birth}
 
             if @students.length <= 1
               puts "Now we have #{@students.length} student."
@@ -69,15 +68,15 @@ def input_students
         end
 
           # get another name and chort from the user
-          name = STDIN.gets.capitalize.chomp
+          name = STDIN.gets.capitalize.chop
 
             if /A/ =~ name && name.length < '12'.to_i
-            cohort = STDIN.gets.capitalize.chomp
+            cohort = STDIN.gets.capitalize.chop
             # get hobby
-            hobby = STDIN.gets.capitalize.chomp
+            hobby = STDIN.gets.capitalize.chop
 
             # get country of birth
-            country_birth = STDIN.gets.capitalize.chomp
+            country_birth = STDIN.gets.capitalize.chop
             end
         end
         break
@@ -135,7 +134,7 @@ end
 def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
-      name, cohort, hobby = line.chomp.split(',')
+      name, cohort, hobby, country_birth = line.chop.split(',')
       add_students(name, cohort, hobby, country_birth)
       #@students << {:name => name, :cohort => cohort.to_s}
     end
@@ -157,7 +156,7 @@ def interactive_menu
   loop do
 
     print_menu
-    process(gets.chomp)
+    process(gets.chop)
   end
 end
 

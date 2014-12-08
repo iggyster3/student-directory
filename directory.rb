@@ -10,7 +10,12 @@ end
 # iterate through array of student and cohort hash and print to stdout(Console)
 def print_student_list
     @students.each.with_index(1) do |student, i|
-      puts "#{i}: #{student[:name]} (#{student[:cohort]} cohort), my hobby is #{student[:hobby]} and i was born in #{student[:country_birth]}"
+      if @students.empty?
+      puts "Please save students before loading file"
+      else
+      puts "#{i}: #{student[:name]} (#{student[:cohort]} cohort),
+      my hobby is #{student[:hobby]} and i was born in #{student[:country_birth]}"
+      end
     end
 end
 
@@ -28,19 +33,29 @@ def input_students
 
 
     # get the first name
-    name = STDIN.gets.capitalize.chop
+    name = STDIN.gets.capitalize.chomp
+
+    #if name.empty?
+    #  puts "*****************"
+    #  puts "This is correct"
+    #  puts "*****************"
+    #else
+    #  puts "*****************"
+    #  puts "This is incorrect"
+    #  puts "*****************"
+    #end
 
     while  name.length < '12'.to_i do
 
       if /A/ =~ name
         # get chort
-        cohort = STDIN.gets.chop
+        cohort = STDIN.gets.chomp
 
         # get hobby
-        hobby = STDIN.gets.capitalize.chop
+        hobby = STDIN.gets.capitalize.chomp
 
         # get country of birth
-        country_birth = STDIN.gets.capitalize.chop
+        country_birth = STDIN.gets.capitalize.chomp
 
       end
 
@@ -68,15 +83,15 @@ def input_students
         end
 
           # get another name and chort from the user
-          name = STDIN.gets.capitalize.chop
+          name = STDIN.gets.capitalize.chomp
 
             if /A/ =~ name && name.length < '12'.to_i
-            cohort = STDIN.gets.capitalize.chop
+            cohort = STDIN.gets.capitalize.chomp
             # get hobby
-            hobby = STDIN.gets.capitalize.chop
+             hobby = STDIN.gets.capitalize.chomp
 
             # get country of birth
-            country_birth = STDIN.gets.capitalize.chop
+            country_birth = STDIN.gets.capitalize.chomp
             end
         end
         break
@@ -115,7 +130,11 @@ def process(selection)
 end
 
 def add_students(name, cohort, hobby, country_birth)
+  if @students.empty?
   @students << {:name => name, :cohort => cohort.to_s, :hobby => hobby, :country_birth => country_birth}
+  else
+    @students
+  end
 end
 
 def save_students
@@ -134,9 +153,15 @@ end
 def load_students(filename = "students.csv")
     file = File.open(filename, "r")
     file.readlines.each do |line|
-      name, cohort, hobby, country_birth = line.chop.split(',')
+      name, cohort, hobby, country_birth = line.chomp.split(',')
+      if line.empty?
+        puts "Please save before loading"
+        puts "#{@students}"
+        #puts "#{line}"
+      else
       add_students(name, cohort, hobby, country_birth)
       #@students << {:name => name, :cohort => cohort.to_s}
+      end
     end
     file.close()
 end
@@ -152,11 +177,12 @@ def try_load_students
     exit
   end
 end
+
 def interactive_menu
   loop do
 
     print_menu
-    process(gets.chop)
+    process(gets.chomp)
   end
 end
 
